@@ -12,10 +12,12 @@ namespace FirstRealASPNETApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private MovieContext context { get; set; }
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, MovieContext mc)
         {
             _logger = logger;
+            context = mc;
         }
 
         public IActionResult Index()
@@ -23,6 +25,24 @@ namespace FirstRealASPNETApp.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult NewMovie()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult NewMovie(Movie m)
+        {
+            context.Add(m);
+            context.SaveChanges();
+
+            return View("Confirmation", m);
+        }
+        public IActionResult Podcasts()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
